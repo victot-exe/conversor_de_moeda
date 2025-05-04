@@ -1,7 +1,7 @@
 # Conversor de moedas
 
 ## Explicando quem propos
-Olá! Este é um desafio proposto pela [Alura](link da alura), na trilha do [OracleOne](link_oracleOne), como forma de treinar o consumo de apis externas em Java.  
+Olá! Este é um desafio proposto pela [Alura](https://www.alura.com.br/), na trilha do [OracleOne](https://www.oracle.com/br/education/oracle-next-education/), como forma de treinar o consumo de apis externas em Java.  
 
 ## Explicando um pouco sobre o projeto
 O projeto proposto foi um conversor de moedas que utilize a uma api externa, a que sugeriram foi [ExangeRate-API](https://app.exchangerate-api.com/dashboard)  
@@ -62,5 +62,10 @@ Para captar as chamadas de saída do programa aproveitei do tratamento de exceç
 #### Main
 - utilizei essa apenas para colocar o `public static void main(String[] args){}` e iniciar o menu _simulando um start de um framework_.
 
+### Aviso importante
+- Para rodar de preferência para rodar no [InteliJ](https://www.jetbrains.com/idea/download/?section=windows) _baixe a versão community, ela é free_ ele já faz todo o processo do gradle, baixa as libs e tem uma compatibilidade melhor com o terminal que é o recurso que utlizamos para interagir no app.
+- Deixei disponível a minha chave de API para a utilização do ExangeRate-API, caso deseje você pode solicitar a sua através do [site deles](https://app.exchangerate-api.com/dashboard) e substituir no código.
 
+## Agradecimentos
+Agradeço a Alura e a Oracle pela oportunidade de acessar os cursos, e aos professores que os fizeram.
 
