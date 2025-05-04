@@ -1,7 +1,6 @@
 package services;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import model.MoedaBase;
 
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class RequestToApi {
 
     //metodo que converte a string response de um request para o formato da moeda
     private MoedaBase ConverteStringParaMoedaBase(String body){
-        Gson gson = new GsonBuilder().registerTypeAdapter(MoedaBase.class, new MoedaBaseDeserializer()).create();
+        Gson gson = new Gson();
         return gson.fromJson(body, MoedaBase.class);
     }
 

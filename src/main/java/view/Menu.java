@@ -1,6 +1,8 @@
 package view;
 
 import exception.EncerramentoException;
+import model.MoedaBase;
+import services.RequestToApi;
 import services.RequisitorDeDados;
 
 public class Menu {
@@ -32,17 +34,15 @@ public class Menu {
             }
 
             tempUri = URI + moedaDeOrigem;//adiciona o link da api e coloca a moeda selecionada no final
-            System.out.println(tempUri);
 
-            //TODO requisição de valor
-            double valorOrigem = 0;
+            //fazendo o requeste e o parse
+            RequestToApi request = new RequestToApi();
+            MoedaBase moeda = request.getMoedaBase(tempUri);
 
-            //TODO criar o request http para usar a uri
+            //TODO while para poder trocar a moeda e essas coisas
 
-
-            //TODO criar o jsonParser para utilizar os dados providos pelo httpRequest
-
-            double valorDestino = 0;
+            //requisitando o valor que deseja converter
+            double valorOrigem = rd.solicitarValor();
 
             //Selecionando a moeda de destino
             System.out.println("Escolha sua moeda de destino:");
@@ -54,11 +54,20 @@ public class Menu {
                 System.out.println(e.getMessage());
                 break;
             }
+            //calculando o valor após o cambio
+            double valorCambiado = valorOrigem * moeda.getConversionRates().get(moedaDeDestino);
 
-            //TODO colocar uma seleção que mostra o resultado e pede para confirmar se quer de novo
-            System.out.printf("%s %.2f = %s %.2f \n", moedaDeOrigem, valorOrigem, moedaDeDestino, valorDestino);
 
 
+            System.out.printf("%s %.2f = %s %.2f \n", moedaDeOrigem, valorOrigem, moedaDeDestino, valorCambiado);
+
+            rd.reset();
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         System.out.println("Acabou");
