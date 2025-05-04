@@ -19,21 +19,28 @@ public class Menu {
 
         while(true){//laço para repetir até que o usuário cancele
 
+            System.out.println("Escolha sua moeda de origem: ");
             String tempUri = "";//Incia a uri temporaria, sendo redefinida a cada loop
+            String moedaDeOrigem = "";//Seleciona a moeda
 
-
-            String moedaSelecionada = "";//Seleciona a moeda
+            //Selecinando a moeda de origem
             try {
-                moedaSelecionada = rd.seletorDeMoeda();
+                moedaDeOrigem = rd.seletorDeMoeda();
             } catch (EncerramentoException e) {//pega a exception que eu criei
                 System.out.println(e.getMessage());
                 break; //sai do loop para encerrar
             }
 
-            tempUri = URI + moedaSelecionada;//adiciona o link da api e coloca a moeda selecionada no final
+            tempUri = URI + moedaDeOrigem;//adiciona o link da api e coloca a moeda selecionada no final
             System.out.println(tempUri);
 
-            System.out.println("####################");
+            //Selecionando a moeda de destino
+            System.out.println("Escolha sua moeda de destino:");
+
+            String MoedaDeDestino = rd.seletorDeMoeda();
+
+
+
 
         }
 

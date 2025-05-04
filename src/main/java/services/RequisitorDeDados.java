@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class RequisitorDeDados {
 
     private final List<String> moedas;
+    private String moedaOrigem;
 
     private final Scanner sc;
 
@@ -23,6 +24,7 @@ public class RequisitorDeDados {
         moedas.add("CHF");
         moedas.add("BRL");
 
+        moedaOrigem = "";
         sc = new Scanner(System.in);
     }
 
@@ -32,7 +34,6 @@ public class RequisitorDeDados {
 // fazer modo para verificar o numero escolhido
         int moeda = 0;//inicia a moeda
 
-        String retorno = "";
 
         while (true){
             try{
@@ -47,18 +48,23 @@ public class RequisitorDeDados {
             if(moeda < 0){//caso a escolha seja sair
                 throw new EncerramentoException("Você escolheu encerrar :( ByeBye!");
 
-            }else if (moeda < 8) {
-                retorno = moedas.get(moeda -1);
+            } else if (moedaOrigem.equals(moedas.get(moeda -1))) {
+                System.out.println("Você escolheu a mesma moeda de origem e a mesma moeda de destino, por favor selecione outra para o destino ou cancele");
+                continue;//mesmo sendo desnecessário colocar aqui eu quero deixar claro que é pra pular e não fazer nada
+            } else if (moeda < 8) {
+                moedaOrigem = moedas.get(moeda -1);
                 break;
             }else{
                 System.out.println("Voce escolheu um número fora da lista, escolha outro ou cancele a operação.");
             }
         }
-        return retorno;
+        return moedaOrigem;
     }
 
     private void exibirMoedas() {
         for(int i = 0; i < moedas.size(); i++){
+            if(moedas.get(i).equals(moedaOrigem))
+                continue;
             System.out.println((i +1) + ": " + moedas.get(i));
         }
 
