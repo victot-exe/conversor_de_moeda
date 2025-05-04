@@ -1,50 +1,66 @@
 # Conversor de moedas
-_Este é um conversor de moedas que utiliza a API ... link da api ... _
-Sua forma de interação é o console por se tratar de um challenge referente ao projeto Oracle one (info sobre o oracle one) na alura info da alura blablabla_
-## Como rodar:
-- Informações de como rodar a aplicação  
 
-## Desenvolvimento
-1. Primeira saída:
-    ~~~shell
-    Seja bem vindo:
-    Para começar escolha qual a sua moeda de origem: 
-        - 1-> Moeda 1
-        - 2-> Moeda 2
-        - 3-> Moeda 3
-        - 4-> Moeda 4
-        - 5-> Moeda 5
-        - 6-> Moeda 6
-    ~~~
-    - Aqui é onde o usuário vai escolher a moeda de base que ele está utilizando para a conversão.  
-    Vou utilizar uma função que funciona assim:
-      1. `public String seletorDeMoeda(boolean origemOuSaida){} ` => A função recebe argumento tipo boolean para escolher se será a moeda de oriegem ou a moeda de destino e retorna uma String para concatenação na uri;
-      2. Esta função vai ser utilizada para escolher a moeda de origem e a moeda do resultado final;
+## Explicando quem propos
+Olá! Este é um desafio proposto pela [Alura](link da alura), na trilha do [OracleOne](link_oracleOne), como forma de treinar o consumo de apis externas em Java.  
 
-2. Segunda saída:
-    ~~~shell
-       Escolha qual a sua moeda de destino:
-        - 1-> Moeda 1
-        - 2-> Moeda 2
-        - 3-> Moeda 3
-        - 4-> Moeda 4
-        - 5-> Moeda 5
-        - 6-> Moeda 6
-    ~~~
-    - Utiliza a mesma função da 1
+## Explicando um pouco sobre o projeto
+O projeto proposto foi um conversor de moedas que utilize a uma api externa, a que sugeriram foi [ExangeRate-API](https://app.exchangerate-api.com/dashboard)  
 
-3. Terceira saída
-    ~~~shell
-    Qual o valor que deseja converter? 
-    ~~~
-    - Uma função que não tem parâmetros e que pede ao usuário o valor;
-        - Importante lembrar de chegar os erros que podem acontecer na conversão e tratar os mesmos.
-    - Após converter corretamente e verificar erros retorna uma string com todos os dados da uri para a requuisição
+Para facilitar a importação de bibliotecas utilizei o gradle portanto é necessário te-lo em sua máquina quando for rodar o projeto.  
+A única biblioteca externa que utilizo é a [Gson 2.13.1](https://mvnrepository.com/artifact/com.google.code.gson/gson/2.13.1)
 
-4. Quarta saída:
-    ~~~shell
-   $$ 1233.00 equivalem a $$ 123131.00
-   ~~~
-   - Entre o 3 e o 4 é onde será iniciado o HttpClient, será feita a requisição com a string que foi formada;
-     - Fazer a requisição, se atentar a erros que podem vir a ocorrer e tratar os mesmos;
+Para interação com o programa utilizo o console, onde fiz menus básicos utilizando laços while que se repetem até que a opção de cancelar seja selecionada.  
+Para captar as chamadas de saída do programa aproveitei do tratamento de exceções para criar uma personalizada que pode ser facilmente captada e usada para sair do laço e encerrar a aplicação.
+
+- Tentei organizar o projeto simulando o uso de um framework, para por em prática também as boas práticas de programação
+
+### Explicando as classes
+#### RequisitorDeDados -> é a classe responsável pelo serviços que requisitam os dados.
+
+##### Variáveis
+- `moedas` -> uma lista que eu mesmo inicio no programa contendo 7 moedas que que acordo com o que pesquisei são as mais utilizadas hoje no mercado internacional referente ao Brasil:  
+
+| Moeda | Local            |
+|-------|------------------|
+| USD   | Dólar americano  |
+| EUR   | Euro             |
+| JPY   | Iene Japonês     |
+| CNY   | Yuan Chines      |
+| GBP   | Libra Esterlina  |
+| CHF   | Franco Suiço     |
+| BRL   |  Real Brasileiro |
+    - Caso deseje é só adicionar uma sigla válida na lista para adicionar mais moedas compatíveis na aplicação.  
+- `moedaOrigem` -> é uma string que coloquei para que ela salve qual foi a moeda de origem, para evitar que o programa não tente converter a mesma moeda de entrada e de saída.
+- `sc` -> é uma instância global de Scanner, para não ocorrerem erros fora do método, mantendo sempre o mesmo sc para toda a aplicação.
+
+##### Métodos
+- Construtor -> responsável por iniciar a classe, iniciando a lista com os valores padrão e definindo a moedaOrigem como uma string vazia.
+- `exibirMoedas` -> método que percorre a lista com um for e exibe o número referente a cada moeda, nele utilizo a moeda de origem para evitar a repetição da moeda que já está selecionada como origem.
+- `reset` -> método que ao final de uma conversão reseta o valor de moedaOrigem, para que a próxima repetição ocorra sem quaisquer conflitos com a antiga.
+- `solicitarValor` -> método usado para inserir um valor double para que seja realizado o cambio de uma moeda para a outra, ele trata o erro de caso não digite numero ou coloque . no lugar da , para que a aplicação não se encerre a menos que o valor seja < 0;
+- `seletorDeMoedas` -> este método é o que usamos para selecionar uma moeda da lista através do terminal, ele tem um retorno com a sigla da moeda utilizada, o mesmo retorno é adicionado a uri da requisição e é utilzado para pegar o valor de cambio do Map que ficam armazenados os valores;
+
+#### RequestToApi
+##### Métodos
+- `requestToApi` -> é o método que recebe a uri, ele é responsável por realizar o request e retornar o mesmo em forma de string, para que seja feita a conversão para um objeto que podemos utilizar.
+- `converteStringParaMoedaBase` -> ele é quem vai receber a request já convertida em forma de string, usar a lib Gson para fazer a serialização para o formato que desejamos `MoedaBase`;
+- `getMoedaBase` -> este sendo o método que é público da classe, recebe a uri, chama o `requestToApi` e manda o retorno do mesmo para o `converteStringParaMoedaBase`, assim obtendo o retorno no formato desejado.
+
+#### MoedaBase
+##### Variáveis
+- `conversionRates` -> é um Map com chave que corresponde a moeda e o valor um Double que corresponde ao valor. Optei por utilizar o Map pois ele já tem os métodos que eu precisaria implementar, e também por ser uma abordagem que não utilizei antes, acabei achando interessante, versátil, já que se eu quiser adicionar mais moedas a lista de moedas que posso fazer cãmbio não precisarei modificar essa parte.
+- 
+##### Métodos
+- utilizei um método get para retornar Map com os valores que foram definidor.
+
+#### EncerramentoException
+- É uma exceção personalizada que fiz para controlar melhor o fluxo de sáida da aplicação.
+
+#### Menu
+- Nesta classe é que está o coração da aplicação, nela eu escolho quando chamar e trato as exceções que geram a saída da aplicação, ela é responsável pelo loop principal que vai se repetir até que o usuário escolha sair. Ao final de cada repetição coloquei o app para dormir por 5 segundos para que de para visualizar o resultado antes do loop começar novamente.
+
+#### Main
+- utilizei essa apenas para colocar o `public static void main(String[] args){}` e iniciar o menu _simulando um start de um framework_.
+
+
 

@@ -29,9 +29,9 @@ public class RequisitorDeDados {
     }
 
     public String seletorDeMoeda(){
-        //Mensagem
+
         exibirMoedas();//Exibe moedas
-// fazer modo para verificar o numero escolhido
+
         int moeda = 0;//inicia a moeda
 
 
@@ -81,7 +81,7 @@ public class RequisitorDeDados {
          while (valor == 0){
              try {
                  valor = sc.nextDouble();
-                 sc.nextLine();//TODO marcando
+                 sc.nextLine();
              }catch (InputMismatchException e){
                  System.out.println("Insira um valor válido ou menor do que 0 para cancelar, lembre que estamos no Brasil e usamos . ao invés de ,");
                  sc.nextLine();//para pegar o caractere invalido e sumir com ele
@@ -99,12 +99,4 @@ public class RequisitorDeDados {
         moedaOrigem = "";
     }
 
-    public String seletorDeContinuidade(){
-        System.out.println("Para fazer uuma nova conversão coloque qualqur valor diferente de -1.");
-        String continuaOuPara = sc.nextLine();
-        if(continuaOuPara.equals("-1")){
-            throw new EncerramentoException("Você escolheu encerrar. Até logo. ByeBye!");
-        }
-        return continuaOuPara;
-    }
 }

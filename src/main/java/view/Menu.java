@@ -39,8 +39,6 @@ public class Menu {
             RequestToApi request = new RequestToApi();
             MoedaBase moeda = request.getMoedaBase(tempUri);
 
-            //TODO while para poder trocar a moeda e essas coisas
-
             //requisitando o valor que deseja converter
             double valorOrigem = rd.solicitarValor();
 
@@ -69,7 +67,5 @@ public class Menu {
                 throw new RuntimeException(e);
             }
         }
-
-        System.out.println("Acabou");
     }
 }

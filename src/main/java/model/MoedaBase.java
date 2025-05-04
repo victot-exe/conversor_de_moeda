@@ -17,9 +17,4 @@ public class MoedaBase {
     public Map<String, Double> getConversionRates() {
         return conversionRates;
     }
-
-    public void addConversionRate(String moeda, double rate){
-        this.conversionRates.put(moeda, rate);
-    }
-
 }
