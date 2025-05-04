@@ -34,12 +34,29 @@ public class Menu {
             tempUri = URI + moedaDeOrigem;//adiciona o link da api e coloca a moeda selecionada no final
             System.out.println(tempUri);
 
+            //TODO requisição de valor
+            double valorOrigem = 0;
+
+            //TODO criar o request http para usar a uri
+
+
+            //TODO criar o jsonParser para utilizar os dados providos pelo httpRequest
+
+            double valorDestino = 0;
+
             //Selecionando a moeda de destino
             System.out.println("Escolha sua moeda de destino:");
 
-            String MoedaDeDestino = rd.seletorDeMoeda();
+            String moedaDeDestino = "";
+            try {
+                moedaDeDestino = rd.seletorDeMoeda();
+            } catch (EncerramentoException e) {
+                System.out.println(e.getMessage());
+                break;
+            }
 
-
+            //TODO colocar uma seleção que mostra o resultado e pede para confirmar se quer de novo
+            System.out.printf("%s %.2f = %s %.2f \n", moedaDeOrigem, valorOrigem, moedaDeDestino, valorDestino);
 
 
         }
