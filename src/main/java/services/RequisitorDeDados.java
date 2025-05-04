@@ -1,74 +1,69 @@
 package services;
 
+import exception.EncerramentoException;
+
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class RequisitorDeDados {
 
-    private final List<String> moedasSuportadas;
+    private final List<String> moedas;
+
+    private final Scanner sc;
 
     public RequisitorDeDados (){
-        moedasSuportadas = new ArrayList<String>();
-        moedasSuportadas.add("Moeda1");
-        moedasSuportadas.add("Moeda2");
-        moedasSuportadas.add("Moeda3");
-        moedasSuportadas.add("Moeda4");
-        moedasSuportadas.add("Moeda5");
-        moedasSuportadas.add("Moeda6");
-        moedasSuportadas.add("Ou mais para cancelar");
+        moedas = new ArrayList<>();
+        moedas.add("USD");
+        moedas.add("EUR");
+        moedas.add("JPY");
+        moedas.add("CNY");
+        moedas.add("GBP");
+        moedas.add("CHF");
+        moedas.add("BRL");
+
+        sc = new Scanner(System.in);
     }
 
-    public String seletorDeMoedaDeOrigem(){
+    public String seletorDeMoeda(){
+        //Mensagem
+        exibirMoedas();//Exibe moedas
+// fazer modo para verificar o numero escolhido
+        int moeda = 0;//inicia a moeda
 
-        System.out.println("Seja bem vindo:\n" +
-                "    Para começar escolha qual a sua moeda de origem:");
-        exibirMoedas();
+        String retorno = "";
 
-        Scanner sc = new Scanner(System.in);//TODO alguma coisa aqui está quebrando verificar o que é
-        int moedaSelecionada = Integer.parseInt(sc.next());//TODO Verificar se é um numero e coisas do tipo fazer um método externo para verificar tambem no outro método
-        sc.next();
+        while (true){
+            try{
+                moeda = sc.nextInt();//pega o next int
 
-        if(moedaSelecionada >= 6) {
-            sc.close();
-            throw new RuntimeException("Você saiu da aplicação." + "\nAté mais :)");//TODO Criar exceção personalizada
-        }
-        sc.close();
-        return moedasSuportadas.get(moedaSelecionada);
-    }
+            }catch(InputMismatchException e){//caso passe algo diferente de um numero volta para o começo
+                System.out.println("Insira um número entre 1 e 7 ou <0 para cancelar a operação");
+                sc.nextLine();//consome o caractere invalido, caso não consuma o codigo fica preso nessa parte
+                continue;
+            }
 
+            if(moeda < 0){//caso a escolha seja sair
+                throw new EncerramentoException("Você escolheu encerrar :( ByeBye!");
 
-
-    public String seletorDeMoedaFinal(){
-
-        System.out.println("Escolha qual a sua moeda de conversão:");
-        exibirMoedas();
-
-        Scanner sc = new Scanner(System.in);
-        int moedaSelecionada = Integer.parseInt(sc.next());//TODO Da pra fazer um método externo que verifica já se é uma letra ou não e pede um caractere válido
-
-        if(moedaSelecionada > 5) {
-            while (moedaSelecionada > 5) {
-                System.out.print("Insira uma opção válida: ");
-                moedaSelecionada = Integer.parseInt(sc.next());
-
+            }else if (moeda < 8) {
+                retorno = moedas.get(moeda -1);
+                break;
+            }else{
+                System.out.println("Voce escolheu um número fora da lista, escolha outro ou cancele a operação.");
             }
         }
-
-        if(moedaSelecionada == 5){
-            sc.close();
-            throw new RuntimeException("Você cancelou a operação" + "\nAté mais :)");
-        }
-
-        return moedasSuportadas.get(moedaSelecionada);
+        return retorno;
     }
 
     private void exibirMoedas() {
-        for(int i = 0; i < moedasSuportadas.size(); i++){
-            System.out.println(i + ": " + moedasSuportadas.get(i));
+        for(int i = 0; i < moedas.size(); i++){
+            System.out.println((i +1) + ": " + moedas.get(i));
         }
 
-        System.out.print("Selecione o numero correspondente a moeda: ");
+
+        System.out.print("Selecione o numero correspondente a moeda ou coloque um numero menor do que zero: ");
     }
 
 }
